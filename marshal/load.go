@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"strconv"
 
 	"github.com/brettlangdon/gython/objects"
 	"github.com/brettlangdon/gython/packing"
@@ -39,8 +40,22 @@ func Load(filename string) (*Loader, error) {
 	return loader, err
 }
 
+func LoadString(contents []byte, filename string) (*Loader, error) {
+	loader := &Loader{
+		buffer:   bytes.NewReader(contents),
+		filename: filename,
+		strings:  make([]objects.PyString, 0),
+	}
+
+	err := loader.Load()
+	return loader, err
+
+}
+
 func (this *Loader) String() string {
-	output := fmt.Sprintf("Filename: %s\r\nMagic: %s\r\nModetime: %s\r\n", this.filename, this.Magic, this.Modtime)
+	output := fmt.Sprintf("Filename: %s\r\n", this.filename)
+	output += fmt.Sprintf("Magic: %s\r\n", strconv.FormatInt(int64(this.Magic), 10))
+	output += fmt.Sprintf("Modetime: %s\r\n", strconv.FormatInt(this.Modtime, 10))
 	output += fmt.Sprintf("Strings:\r\n")
 	len := len(this.strings)
 	for i := 0; i < len; i++ {

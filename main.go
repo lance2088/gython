@@ -1,24 +1,35 @@
 package main
 
 import (
-	"fmt"
+	"flag"
 	"os"
 
+	"github.com/brettlangdon/gython/build"
 	"github.com/brettlangdon/gython/dis"
-	"github.com/brettlangdon/gython/marshal"
+	"github.com/brettlangdon/gython/eval"
 )
 
+var runDis bool
+var runBuild bool
+
 func main() {
+	flag.BoolVar(&runDis, "dis", false, "disassemble the file and exit")
+	flag.BoolVar(&runBuild, "build", false, "build the file and exit")
+	flag.Parse()
+
 	if len(os.Args) < 2 {
-		fmt.Println("go run main.go <filename>")
-		return
+		flag.PrintDefaults()
+		os.Exit(1)
 	}
 
-	loader, err := marshal.Load(os.Args[1])
-	if err != nil {
-		fmt.Println(err)
-		return
+	var res = 0
+	if runDis {
+		res = dis.RunCommand()
+	} else if runBuild {
+		res = build.RunCommand()
+	} else {
+		eval.RunCommand()
 	}
 
-	dis.Disassemble(loader.Code)
+	os.Exit(res)
 }
