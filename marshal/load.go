@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 
 	"github.com/brettlangdon/gython/objects"
-	"github.com/brettlangdon/packing"
+	"github.com/brettlangdon/gython/packing"
 )
 
 const SIZE32_MAX = 0x7FFFFFFF
