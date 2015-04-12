@@ -21,7 +21,7 @@ func RunCommand() int {
 		return 1
 	}
 
-	err = Eval(loader.Code)
+	_, err = EvalFrame(loader.GetFrame())
 	if err != nil {
 		fmt.Println(err)
 	}

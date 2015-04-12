@@ -5,6 +5,14 @@ import (
 	"strconv"
 )
 
+const CO_OPTIMIZED = 0x0001
+const CO_NEWLOCALS = 0x0002
+const CO_VARARGS = 0x0004
+const CO_VARKEYWORDS = 0x0008
+const CO_NESTED = 0x0010
+const CO_GENERATOR = 0x0020
+const CO_NOFREE = 0x0040
+
 type PyCode struct {
 	ArgCount    int64
 	Cellvars    PyTuple

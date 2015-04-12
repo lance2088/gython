@@ -68,6 +68,11 @@ func (this *Loader) String() string {
 	return output
 }
 
+func (this *Loader) GetFrame() *objects.Frame {
+	args := objects.NewPyTuple(0)
+	return objects.NewFrame(this.Code, args)
+}
+
 func (this *Loader) Load() error {
 	var err error
 	this.Magic, err = this.readMagic()

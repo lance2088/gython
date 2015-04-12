@@ -1,5 +1,7 @@
 package objects
 
+import "strings"
+
 type PyTuple struct {
 	Length int64
 	items  []PyObject
@@ -8,7 +10,11 @@ type PyTuple struct {
 func (this PyTuple) GetType() rune { return TYPE_TUPLE }
 
 func (this PyTuple) String() string {
-	return "NOT IMPLEMENTED"
+	output := []string{}
+	for _, value := range this.items {
+		output = append(output, value.String())
+	}
+	return "(" + strings.Join(output, ", ") + ")"
 }
 
 func (this PyTuple) SetItem(i int, obj PyObject) {
