@@ -275,10 +275,7 @@ func (this *Loader) readObject() (obj objects.PyObject, err error) {
 			return nil, err
 		}
 
-		str := objects.PyString{
-			Length: len,
-			Chars:  chars,
-		}
+		str := objects.NewPyString(chars)
 
 		if char == objects.TYPE_INTERNED {
 			this.strings = append(this.strings, str)

@@ -7,6 +7,13 @@ type PyString struct {
 	Chars  []byte
 }
 
+func NewPyString(chars []byte) PyString {
+	return PyString{
+		Chars:  chars,
+		Length: int64(len(chars)),
+	}
+}
+
 func (this PyString) GetType() rune { return TYPE_STRING }
 
 func (this PyString) String() string {
