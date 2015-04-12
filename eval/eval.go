@@ -98,6 +98,20 @@ func EvalFrame(frame *objects.Frame) (objects.PyObject, error) {
 			frame.Stack.Push(value)
 		case opcode.Opcodes["POP_TOP"]:
 			frame.Stack.Pop()
+		case opcode.Opcodes["BINARY_ADD"]:
+			value1 := frame.Stack.Pop()
+			value2 := frame.Stack.Pop()
+			var result objects.PyObject
+			if value1.GetType() == objects.TYPE_INT && value2.GetType() == objects.TYPE_INT {
+				num := value1.(objects.PyInt).Number + value2.(objects.PyInt).Number
+				result = objects.PyInt{Number: num}
+			} else if value1.GetType() == objects.TYPE_STRING && value2.GetType() == objects.TYPE_STRING {
+				str := value1.(objects.PyString).String() + value2.(objects.PyString).String()
+				result = objects.NewPyString([]byte(str))
+			} else {
+				result = objects.PyNone{}
+			}
+			frame.Stack.Push(result)
 		default:
 			fmt.Println("Unhandled opcode: " + opcode.Opname[op])
 			needsBreak = true
