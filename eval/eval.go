@@ -51,6 +51,13 @@ func EvalFrame(frame *objects.Frame) (objects.PyObject, error) {
 				value := frame.Stack.Pop()
 				frame.Locals.Set(name, value)
 			}
+		case opcode.Opcodes["STORE_FAST"]:
+			value := frame.Stack.Pop()
+			if oparg > len(frame.FastLocals)-1 {
+				frame.FastLocals = append(frame.FastLocals, value)
+			} else {
+				frame.FastLocals[oparg] = value
+			}
 		case opcode.Opcodes["LOAD_FAST"]:
 			value := frame.FastLocals[oparg]
 			frame.Stack.Push(value)
